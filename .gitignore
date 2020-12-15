@@ -1,2 +1,16 @@
 # User's Makefile
 Makefile
+
+# Node files
+node_modules
+
+# Yarn files
+.yarn/*
+!.yarn/cache
+!.yarn/releases
+!.yarn/plugins
+!.yarn/sdks
+!.yarn/versions
+
+# Build
+public/build

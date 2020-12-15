@@ -1,0 +1,32 @@
+{
+  "name": "hello-world",
+  "description": "Hello World",
+  "version": "0.1.0",
+  "author": "Pavel Sobolev <paveloom@mail.ru>",
+  "repository": "https://github.com/paveloom-a/hello-world",
+  "license": "MIT",
+  "scripts": {
+    "tauri": "tauri",
+    "build": "rollup -c",
+    "dev": "rollup -c -w",
+    "start": "sirv public"
+  },
+  "devDependencies": {
+    "@babel/core": "~7.12.10",
+    "@babel/preset-env": "~7.12.10",
+    "@rollup/plugin-commonjs": "~17.0.0",
+    "@rollup/plugin-node-resolve": "~11.0.1",
+    "ajv": "~6.12.6",
+    "core-js": "~3.8.1",
+    "rollup": "~2.35.0",
+    "rollup-plugin-babel": "~4.4.0",
+    "rollup-plugin-livereload": "~2.0.0",
+    "rollup-plugin-svelte": "~7.0.0",
+    "rollup-plugin-terser": "~7.0.2",
+    "sirv-cli": "~1.0.10",
+    "tauri": "~0.13.0"
+  },
+  "dependencies": {
+    "svelte": "~3.31.0"
+  }
+}

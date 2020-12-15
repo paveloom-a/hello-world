@@ -1,0 +1,52 @@
+name: "Tests"
+on: pull_request
+
+env:
+  RELEASE_PATH: src-tauri/target/release/bundle
+
+jobs:
+  Tests:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macOS-latest]
+    name: ${{ ( matrix.os == 'ubuntu-latest' && 'Linux' ) ||
+              ( matrix.os == 'windows-latest' && 'Windows' ) ||
+              ( matrix.os == 'macOS-latest' && 'macOS' ) }}
+    runs-on: ${{ matrix.os }}
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Setup `Node.js`
+      uses: actions/setup-node@v1
+      with:
+        node-version: 12
+    - name: Setup Rust
+      uses: actions-rs/toolchain@v1
+      with:
+        toolchain: stable
+    - name: Install Tauri bundler
+      run: cargo install tauri-bundler --force
+    - name: Install `webkit2gtk` (Linux only)
+      if: matrix.os == 'ubuntu-latest'
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y --no-install-recommends webkit2gtk-4.0
+    - name: Install dependencies
+      run: yarn install --immutable --immutable-cache --check-cache
+    - name: Build the app
+      run: yarn build
+    - name: Bundle the app
+      run: yarn tauri build
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v2
+      with:
+        name: ${{ ( matrix.os == 'ubuntu-latest' && 'Linux' ) ||
+                  ( matrix.os == 'windows-latest' && 'Windows' ) ||
+                  ( matrix.os == 'macOS-latest' && 'macOS' ) }}
+        path: |
+          ${{ env.RELEASE_PATH }}/deb/*.deb
+          ${{ env.RELEASE_PATH }}/appimage/*.AppImage
+          ${{ env.RELEASE_PATH }}/msi/*.msi
+          ${{ env.RELEASE_PATH }}/osx/*.app
+          ${{ env.RELEASE_PATH }}/dmg/*.dmg

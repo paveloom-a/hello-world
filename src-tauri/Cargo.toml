@@ -1,0 +1,26 @@
+[package]
+name = "hello-world"
+description = "Hello World"
+version = "0.1.0"
+authors = [ "Pavel Sobolev <paveloom@mail.ru>" ]
+repository = "https://github.com/paveloom-a/hello-world"
+license = "MIT"
+edition = "2018"
+default-run = "hello-world"
+build = "src/build.rs"
+
+[dependencies]
+serde_json = "1.0"
+serde = { version = "1.0", features = [ "derive" ] }
+tauri = { version = "0.10", features = [ "all-api" ] }
+
+[target."cfg(windows)".build-dependencies]
+winres = "0.1"
+
+[features]
+embedded-server = [ "tauri/embedded-server" ]
+no-server = [ "tauri/no-server" ]
+
+[[bin]]
+name = "hello-world"
+path = "src/main.rs"
